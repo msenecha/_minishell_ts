@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tscasso <tscasso@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:02:36 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/04 00:39:10 by tscasso          ###   ########.fr       */
+/*   Updated: 2023/12/05 14:30:44 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_env	*init_env_list(char **env)
+{
+	t_env	*var;
+	t_env	*new_elem;
+	int		i;
+
+	var = NULL;
+	i = 0;
+	while (env[i])
+	{
+		new_elem = ft_lstnew_env(env[i]);
+		if (new_elem)
+			ft_lstadd_back(&var, new_elem);
+		i++;
+	}
+	return (var);
+}
 
 void	init_count(t_input *cmd)
 {

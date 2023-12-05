@@ -1,62 +1,119 @@
 
 #include "minishell.h"
 
-void	ft_lstadd_back(t_env **lst, t_env *new)
+int	get_token_len(char *dest)
 {
-	t_env	*last;
+	int	len;
 
-	last = NULL;
-	if (!lst)
-		return ;
-	if (*lst == NULL)
+	len = 0;
+	while (*dest != '$')
+		dest++;
+	while (*dest && *dest != ' ' && *dest != '\t' && *dest != '\"')
 	{
-		*lst = new;
-		return ;
+		len++;
+		dest++;
 	}
-	last = *lst;
-	while (last->next)
-		last = last->next;
-	last->next = new;
+	return (len);
 }
 
-t_env	*ft_lstnew_env(char *env)
+char	*expand_with_env_var(char *dest, char *var, int index)
 {
-	t_env	*new_elem;
-	char	*equal_sign;
-	int		key_len;
-	int		value_len;
-
-	equal_sign = strchr(env, '=');
-	new_elem = malloc(sizeof(t_env));
-	if (new_elem)
-	{
-		key_len = equal_sign - env;
-		new_elem->key = malloc(key_len + 1);
-		strncpy(new_elem->key, env, key_len);
-		new_elem->key[key_len] = '\0';
-		value_len = strlen(env) - key_len - 1;
-		new_elem->value = malloc(value_len + 1);
-		strncpy(new_elem->value, equal_sign + 1, value_len);
-		new_elem->value[value_len] = '\0';
-		new_elem->next = NULL;
-	}
-	return (new_elem);
-}
-
-t_env	*init_env_list(char **env)
-{
-	t_env	*var;
-	t_env	*new_elem;
+	char	*result;
+	int		dest_len;
+	int		var_len;
 	int		i;
+	int		j;
 
-	var = NULL;
 	i = 0;
-	while (env[i])
+	dest_len = ft_strlen(dest) - get_token_len(dest);
+	var_len = ft_strlen(var);
+	result = malloc((dest_len + var_len + 2) * sizeof(char));
+	while (i < index)
 	{
-		new_elem = ft_lstnew_env(env[i]);
-		if (new_elem)
-			ft_lstadd_back(&var, new_elem);
+		result[i] = dest[i];
 		i++;
 	}
+	j = 0;
+	while (j <= var_len)
+		result[i++] = var[j++];
+	j = index + get_token_len(dest);
+	while (dest[j])
+		result[i++] = dest[j++];
+	result[i] = '\0';
+	return (result);
+}
+
+char	*get_var_id(char *str, int index)
+{
+	int		i;
+	int		j;
+	char	*var;
+
+	i = 0;
+	j = index;
+	while (str[index] && str[index] != ' ' && str[index] != '\t'
+		&& str[index] != '\"' && str[index] != '=')
+	{
+		index++;
+		i++;
+	}
+	var = malloc((i + 1) * sizeof(char));
+	i = 0;
+	while (j < index)
+	{
+		var[i] = str[j];
+		i++;
+		j++;
+	}
+	var[i] = '\0';
 	return (var);
+}
+
+char	*expand_arg(char *str, t_env *env)
+{
+	int		i;
+	char	*id;
+	char	*var;
+	char	*res;
+
+	i = 0;
+	while (str[i])
+	{
+		if ((str[i] == '$') && (str[i + 1] == '_'
+				|| (str[i + 1] > 'A' && str[i + 1] < 'Z')))
+		{
+			id = get_var_id(str, i);
+			var = ft_getenv(id, env);
+			free(id);
+			res = expand_with_env_var(str, var, i);
+			str = ft_strdup(res);
+			free(res);
+		}
+		//else if (str[i] == '$' && str[i + 1] == '?')
+		//	str = ft_itoa(gen->ret_val);
+		i++;
+	}
+	return (str);
+}
+
+char	*ft_getenv(char *str, t_env *env)
+{
+	t_env	*var;
+	int		var_len;
+
+	var_len = 0;
+	if (str[0] == '$')
+		str = ft_strtrim(str, "$");
+	var_len = ft_strlen(str);
+	var = env;
+	while (var)
+	{
+		if (ft_strncmp(var->key, str, var_len) == 0)
+		{
+			free(str);
+			return (var->value);
+		}
+		var = var->next;
+	}
+	return (str);
 }

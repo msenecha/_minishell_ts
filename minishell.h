@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:51:56 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/05 17:24:41 by msenecha         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:43:10 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <ctype.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <dirent.h>
 
 //#define NULL __DARWIN_NULL
 #define ALLOC_ERROR 1
@@ -44,7 +45,7 @@ typedef enum
 typedef enum
 {
 	START, 				// début
-	IN_WORD,			// En train de lire un mot 
+	IN_WORD,			// En train de lire un mot
 	IN_SINGLE_QUOTES,	// entre doubles cotes
 	IN_DOUBLE_QUOTES,	// entre simples cotes
 	NO_QUOTES			// pas de cotes
@@ -129,7 +130,7 @@ t_list		*lexer(char *line);
 /* list functions */
 
 void		add_token(t_lexer *lexer, char *token_value);
-void 		free_token_list(t_list *token_list); 
+void 		free_token_list(t_list *token_list);
 
 /* list parser */
 
@@ -141,6 +142,9 @@ void		re_init_sublist(t_parser *data);
 void		print_command_list(t_command *command_list);
 void 		free_command(t_command *command);
 void		free_list(t_list *list);
+int			ft_lstsize(t_env *lst);
+t_env		*ft_lstnew_env(char *env);
+void		ft_lstadd_back(t_env **lst, t_env *new);
 
 /* environnement */
 
@@ -149,7 +153,6 @@ t_env		*init_env_list(char **env);
 /* execution */
 
 void 		execute_command(t_parser *data, t_env *env);
-
 
 
 #endif
