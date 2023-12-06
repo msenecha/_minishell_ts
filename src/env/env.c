@@ -1,5 +1,27 @@
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
+
+char	*ft_getenv(char *str, t_env *env)
+{
+	t_env	*var;
+	int		var_len;
+
+	var_len = 0;
+	if (str[0] == '$')
+		str = ft_strtrim(str, "$");
+	var_len = ft_strlen(str);
+	var = env;
+	while (var)
+	{
+		if (strncmp(var->key, str, var_len) == 0)
+		{
+			free(str);
+			return (var->value);
+		}
+		var = var->next;
+	}
+	return (str);
+}
 
 int	get_token_len(char *dest)
 {
@@ -96,24 +118,3 @@ char	*expand_arg(char *str, t_env *env)
 	return (str);
 }
 
-char	*ft_getenv(char *str, t_env *env)
-{
-	t_env	*var;
-	int		var_len;
-
-	var_len = 0;
-	if (str[0] == '$')
-		str = ft_strtrim(str, "$");
-	var_len = ft_strlen(str);
-	var = env;
-	while (var)
-	{
-		if (ft_strncmp(var->key, str, var_len) == 0)
-		{
-			free(str);
-			return (var->value);
-		}
-		var = var->next;
-	}
-	return (str);
-}

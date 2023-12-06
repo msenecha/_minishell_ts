@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tscasso <tscasso@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 16:53:50 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/04 21:05:41 by tscasso          ###   ########.fr       */
+/*   Updated: 2023/12/06 17:07:06 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 // void free_token_list(t_node *head) 
 // {

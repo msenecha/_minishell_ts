@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tscasso <tscasso@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 23:47:45 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/03 23:00:32 by tscasso          ###   ########.fr       */
+/*   Updated: 2023/12/06 17:06:48 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	tokenize_last_word(t_lexer *lx)
 {

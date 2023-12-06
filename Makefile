@@ -1,38 +1,58 @@
-NAME = minishell
 
-CC = gcc
+NAME			= minishell
+CC				= gcc
+CFLAGS			= -g -Wall -Wextra -Werror -fsanitize=address
+LIB				= -lasan -L$(LIBFT_DIR) -lft -lreadline
+INCLUDES		= -I$(HEADERS_DIR) -I$(LIBFT_DIR)
 
-CFLAGS = -Wall -Wextra -Werror -g -lreadline -fsanitize=address
+LIBFT_DIR		= ./libft/
+LIBFT_LIB		= $(LIBFT_DIR)libft.a
 
-HEADERS = minishell.h
+HEADERS_DIR		= ./includes/
+SRC_DIR			= ./src
+SUBDIR			= builtin executing parsing env signals
 
-SRCS =	main.c \
-		process.c \
-		syntax.c \
-		init.c  \
-		lexer.c \
-		lexer_utils.c \
-		list_parser.c \
-		print_list_utils.c \
-		env.c \
-		exec.c
+###############################################################################
+################################### SOURCES ###################################
 
-OBJS = $(SRCS:.c=.o)
+
+SRCS 			= $(wildcard $(SRC_DIR)/*.c $(foreach fd, $(SUBDIR), $(SRC_DIR)/$(fd)/*.c))
+OBJS 			= $(SRCS:.c=.o)
+
+
+###############################################################################
+################################### RULES #####################################
+
 all: $(NAME)
 
-$(NAME): $(SRCS)
-	@echo "Compilation en cours..."
-	$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
-	@echo "Compilation terminée!"
+.SILENT:
+$(NAME): libft $(OBJS)
+	echo "\nCompiling objects ...\n"
+	@$(CC) -o $(NAME) $(OBJS) $(LIB)
+	@$(MAKE) clean
 
-.c.o:
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: $(SRC_DIR)/%.c $(INCLUDES)
+	@$(CC) $(CFLAGS) -sC $< -o $@ $(INCLUDES)
 
+.SILENT:
+libft:
+	echo "\nCreating libft.a ...\n"
+	@$(MAKE) -sC $(LIBFT_DIR)
+
+.SILENT:
 clean:
-	rm -f $(NAME) $(OBJS)
-
-re: fclean all
+	echo "\nDeleting objects ...\n"
+	@$(MAKE) -sC $(LIBFT_DIR) clean
+	@rm -rf $(OBJS)
 
 fclean: clean
+	echo "\nDeleting $(NAME) ...\n"
+	@rm -f $(LIBFT_LIB)
+	@rm -f $(NAME)
 
-.PHONY: all clean re fclean
+.SILENT:
+re:
+	@$(MAKE) fclean
+	@$(MAKE) all
+
+.PHONY: all libft clean fclean re

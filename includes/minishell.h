@@ -3,30 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msenecha <msenecha@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:51:56 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/05 14:43:10 by msenecha         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:16:20 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef MINISHELL_H
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include <ctype.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <dirent.h>
+# include "../libft/libft.h"
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdbool.h>
+# include <ctype.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <dirent.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 //#define NULL __DARWIN_NULL
-#define ALLOC_ERROR 1
-#define	QUOTES_ERROR 1
-#define EXIT_FAILURE 1
+# define ALLOC_ERROR 1
+# define	QUOTES_ERROR 1
+# define EXIT_FAILURE 1
 
 typedef enum
 {
@@ -142,17 +146,23 @@ void		re_init_sublist(t_parser *data);
 void		print_command_list(t_command *command_list);
 void 		free_command(t_command *command);
 void		free_list(t_list *list);
-int			ft_lstsize(t_env *lst);
+int			ft_lstsize(t_node *lst);
+int			ft_envsize(t_env *lst);
 t_env		*ft_lstnew_env(char *env);
 void		ft_lstadd_back(t_env **lst, t_env *new);
+void		my_free(char **argv);
 
 /* environnement */
 
 t_env		*init_env_list(char **env);
+char		**env_to_str(t_env *env);
 
 /* execution */
 
 void 		execute_command(t_parser *data, t_env *env);
+void		setup_redir(int type, char *path);
+char		*search_in_bin(char *args, t_env *env);
+char		*expand_arg(char *str, t_env *env);
 
 
 #endif

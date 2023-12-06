@@ -1,5 +1,5 @@
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 char	*path_join(char *s1, char *s2)
 {
@@ -54,9 +54,6 @@ char	*search_in_bin(char *args, t_env *env)
 		path = check_dir(bin[i++], args);
 	my_free(bin);
 	if (path != NULL)
-	{
-		free(args);
 		return (path);
-	}
 	return (args);
 }

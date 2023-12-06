@@ -6,11 +6,11 @@
 /*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:18:46 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/05 18:20:26 by msenecha         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:06:51 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 t_node *create_node(char *value, TOKEN type, STATE quote_state)
 {

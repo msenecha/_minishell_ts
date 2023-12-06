@@ -6,11 +6,11 @@
 /*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 00:40:54 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/05 18:19:14 by msenecha         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:06:56 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	print_token_list(t_list *token_list)
 {

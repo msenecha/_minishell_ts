@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tscasso <tscasso@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 17:49:29 by tscasso           #+#    #+#             */
-/*   Updated: 2023/11/24 02:41:01 by tscasso          ###   ########.fr       */
+/*   Created: 2023/02/03 12:27:20 by msenecha          #+#    #+#             */
+/*   Updated: 2023/03/31 11:34:08 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-char	get_type(char c, t_lexer *lx)
+int	ft_isdigit(int c)
 {
-	char	quotes;
-
-	quotes = c;
-	if (quotes == '\"')
-		lx->quotes = IN_DOUBLE_QUOTES;
-	else
-		lx->quotes = IN_SINGLE_QUOTES;
-	return (quotes);
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }

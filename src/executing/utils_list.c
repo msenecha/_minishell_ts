@@ -1,5 +1,5 @@
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 t_env	*ft_lstlast(t_env *lst)
 {
@@ -27,7 +27,7 @@ t_env	*ft_lstnew_env(char *env)
 		new_elem->key = malloc(key_len + 1);
 		ft_strncpy(new_elem->key, env, key_len);
 		new_elem->key[key_len] = '\0';
-		value_len = ft_strlen(env) - key_len - 1;
+		value_len = strlen(env) - key_len - 1;
 		new_elem->value = malloc(value_len + 1);
 		ft_strncpy(new_elem->value, equal_sign + 1, value_len);
 		new_elem->value[value_len] = '\0';
@@ -48,7 +48,20 @@ t_env	*ft_lstnew(char	*env_data)
 	return (element);
 }
 
-int	ft_lstsize(t_env *lst)
+int	ft_lstsize(t_node *lst)
+{
+	int	size;
+
+	size = 0;
+	while (lst != NULL)
+	{
+		size++;
+		lst = lst->next;
+	}
+	return (size);
+}
+
+int	ft_envsize(t_env *lst)
 {
 	int	size;
 
@@ -90,4 +103,17 @@ void	freelist(t_env *head)
 		free(tmp);
 	}
 	free (head);
+}
+
+void	my_free(char **argv)
+{
+	int		i;
+
+	i = 0;
+	while (argv[i])
+	{
+		free (argv[i]);
+		i++;
+	}
+	free (argv);
 }

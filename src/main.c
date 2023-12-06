@@ -6,11 +6,11 @@
 /*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:02:21 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/05 17:01:51 by msenecha         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:07:19 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	print_env(t_env *env)
 {

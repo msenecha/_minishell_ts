@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tscasso <tscasso@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 23:39:01 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/04 21:06:55 by tscasso          ###   ########.fr       */
+/*   Updated: 2023/12/06 17:05:59 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 // in_double_quotes et in_single_quotes sont initialisé à zero dans cette fonction 
 // ils agiront comme des booléen, donc le zero représentera FAUX et l'inverse représentera
