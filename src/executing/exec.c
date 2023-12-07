@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-int run_simple_command(char **args, t_env *env)
+int run_simple_command(char **args, t_env *env, int mode)
 {
 	char **env_tab;
 	int status;
@@ -11,8 +11,9 @@ int run_simple_command(char **args, t_env *env)
 		return (exec_builtin(args, env));
 	else
 	{
-		pid = fork();
-		if (pid == 0)
+		if (mode == 1)
+			pid = fork();
+		if (pid == 0 || mode == 0)
 		{
 			env_tab = env_to_str(env);
 			if (execve(args[0], args, env_tab) == -1)
@@ -21,7 +22,7 @@ int run_simple_command(char **args, t_env *env)
 				return(1);
 			}
 		}
-		else if (pid > 0)
+		else if (pid > 0 && mode == 1)
 		{
 			waitpid(-1, &status, 0);
 			if (WEXITSTATUS(status) == 1)
@@ -35,49 +36,33 @@ int	setup_pipe(char **cmd1, char **cmd2, t_env *env, int out)
 {
 	int		fd[2];
 	pid_t	pid;
-	//pid_t	pid2;
 	int		status;
 
-	if (pipe(fd) == -1)
+	if (pipe(fd) == -1 || ((pid = fork()) == -1))
 	{
-		perror("pipe");
-		return(1);
-	}
-	if ((pid = fork()) == -1)
-	{
-		perror("fork");
+		perror("error fatal");
 		return(1);
 	}
 	if (pid == 0)
 	{
-		//close(fd[0]);
+		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		if (run_simple_command(cmd1, env))
+		if (run_simple_command(cmd1, env, 0))
 			return(1);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
 		if (WEXITSTATUS(status) == 1)
-			printf("erreur premiere commaande\n");
+			printf("erreur premiere commande\n");
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		dup2(out, STDOUT_FILENO);
 		close(out);
-		//pid2 = fork();
-		//if(pid2 == 0)
-		//{
-			if (run_simple_command(cmd2, env))
-				return(1);
-		//}
-		/*else
-		{
-			waitpid(-1, &status, 0);
-			if (WEXITSTATUS(status) == 1)
-				return (1);
-		}*/
+		if (run_simple_command(cmd2, env, 1))
+			return(1);
 	}
 	return (0);
 }
@@ -95,7 +80,8 @@ void execute_command(t_parser *data, t_env *env)
 	full_cmd = data->command_list->head;
 	while (full_cmd)
 	{
-		cmd1 = build_exec_line(data->command_list->head, env);
+		if ((cmd1 = build_exec_line(data->command_list->head, env)) == NULL)
+			break;
 		if (check_for_pipe(full_cmd))
 		{
 			cmd2 = build_exec_line(data->command_list->head->next, env);
@@ -105,7 +91,7 @@ void execute_command(t_parser *data, t_env *env)
 		}
 		else
 		{
-			if (run_simple_command(cmd1, env))
+			if (run_simple_command(cmd1, env, 1))
 				break;
 			full_cmd = full_cmd->next;
 		}
