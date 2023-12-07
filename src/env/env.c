@@ -62,6 +62,7 @@ char	*expand_with_env_var(char *dest, char *var, int index)
 	while (dest[j])
 		result[i++] = dest[j++];
 	result[i] = '\0';
+	//free(dest);
 	return (result);
 }
 
@@ -117,4 +118,3 @@ char	*expand_arg(char *str, t_env *env)
 	}
 	return (str);
 }
-

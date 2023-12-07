@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_list_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 00:40:54 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/06 17:06:56 by msenecha         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:30:23 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_token_list(t_list *token_list)
 {
-    if (token_list == NULL) 
+    if (token_list == NULL)
     {
         printf("Token list is NULL.\n");
         exit(EXIT_FAILURE);
@@ -50,7 +50,7 @@ void	print_sublists(t_command *command_list)
 void	print_command_list(t_command *command_list)
 {
     t_command *cmd;
-    
+
     cmd = command_list;
     printf("Command List:\n");
     print_sublists(cmd);

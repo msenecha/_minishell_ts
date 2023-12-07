@@ -25,7 +25,6 @@ OBJS 			= $(SRCS:.c=.o)
 
 all: $(NAME)
 
-.SILENT:
 $(NAME): libft $(OBJS)
 	echo "\nCompiling objects ...\n"
 	@$(CC) -o $(NAME) $(OBJS) $(LIB)
@@ -41,7 +40,7 @@ libft:
 
 .SILENT:
 clean:
-	echo "\nDeleting objects ...\n"
+	echo "\nCleaning object files ...\n"
 	@$(MAKE) -sC $(LIBFT_DIR) clean
 	@rm -rf $(OBJS)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 23:47:45 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/06 17:06:48 by msenecha         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:28:49 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	tokenize_last_word(t_lexer *lx)
 	char	*token;
 
 	token = strndup(lx->line + lx->start, lx->index - lx->start);
-	printf("\033[1;34mToken:\033[0m \033[1;32m%s\033[0m\n", token);
+	//printf("\033[1;34mToken:\033[0m \033[1;32m%s\033[0m\n", token);
 	add_token(lx, token);
 }
 
@@ -26,7 +26,7 @@ void	cut_token(t_lexer *lx)
 	char	*token;
 
 	token = strndup(lx->line + lx->quote_start + 1, lx->quote_end - lx->quote_start - 1);
-	printf("\033[1;34mToken:\033[0m \033[1;32m%s\033[0m\n", token);
+	//printf("\033[1;34mToken:\033[0m \033[1;32m%s\033[0m\n", token);
 	add_token(lx, token);
 }
 
@@ -59,17 +59,17 @@ void	process_quotes(t_lexer *lx)
 {
 	char	current;
 
-	while ((current = lx->line[lx->index]) != '\0') 
+	while ((current = lx->line[lx->index]) != '\0')
 	{
-		if (get_type(current, lx) == '\'' || get_type(current, lx) == '\"') 
+		if (get_type(current, lx) == '\'' || get_type(current, lx) == '\"')
 		{
-			if (lx->state == START) 
+			if (lx->state == START)
 			{
 				lx->state = IN_WORD;
 				lx->quote_type = current;
 				lx->quote_start = lx->index;
-			} 
-			else if (lx->state == IN_WORD && current == lx->quote_type) 
+			}
+			else if (lx->state == IN_WORD && current == lx->quote_type)
 			{
 				lx->state = START;
 				lx->quote_end = lx->index;
@@ -88,7 +88,7 @@ void	process_no_quotes(t_lexer *lx)
 	char	*token;
 
 	token = strndup(lx->line + lx->start, lx->end - lx->start);
-	printf("\033[1;34mToken:\033[0m \033[1;32m%s\033[0m\n", token);
+	//printf("\033[1;34mToken:\033[0m \033[1;32m%s\033[0m\n", token);
 	add_token(lx, token);
 }
 
@@ -105,7 +105,7 @@ t_list	*lexer(char *line)
 		else if (lx->line[lx->index] == ' ' || lx->line[lx->index] == '\n')
 		{
 			lx->end = lx->index;
-			if (lx->state == START) 
+			if (lx->state == START)
 			{
 				if (lx->end > lx->start && lx->end < (int)strlen(lx->line)) // a voir
 					process_no_quotes(lx);
@@ -115,7 +115,7 @@ t_list	*lexer(char *line)
 	}
 	if (lx->state == START && lx->index > lx->start)
 		tokenize_last_word(lx);
-	//free(lx); // a voir 
+	//free(lx); // a voir
 	return (lx->token_list);
 }
 

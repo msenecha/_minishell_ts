@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:51:56 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/06 18:16:20 by msenecha         ###   ########.fr       */
+/*   Updated: 2023/12/07 00:18:07 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,12 @@ void 		execute_command(t_parser *data, t_env *env);
 void		setup_redir(int type, char *path);
 char		*search_in_bin(char *args, t_env *env);
 char		*expand_arg(char *str, t_env *env);
+int 		check_for_pipe(t_list *sub_list);
+char    	**build_exec_line(t_list *sub_list, t_env *env);
 
+/* builtins */
+
+int			exec_builtin(char **args, t_env *env);
+int			is_builtin(char *command);
 
 #endif

@@ -1,26 +1,5 @@
 
 #include "../../includes/minishell.h"
-/*
-int	ft_execve(t_cmd *cmd, t_gen *gen)
-{
-	char	*exec_args[MAX_ARGS + 2];
-	int		i;
-	char	**env;
-
-	exec_args[0] = cmd->cmd;
-	i = 0;
-	while (i <= cmd->nb_args)
-	{
-		exec_args[i + 1] = cmd->args[i].arg_value;
-		i++;
-	}
-	exec_args[cmd->nb_args + 1] = NULL;
-	env = env_to_str(gen);
-	if (execve(cmd->cmd, exec_args, env) == -1)
-		return (1);
-	return (0);
-}
-*/
 
 int	set_heredoc(char *delim)
 {
@@ -84,25 +63,49 @@ void	setup_redir(int type, char *path)
 	}
 	//return (0);
 }
-/*
-void	setup_pipe(t_pipe *pipe, int a, int b, char mode)
+
+
+int check_for_pipe(t_list *sub_list)
 {
-	if (mode == 'o')
+	t_node  *current;
+
+	current = sub_list->head;
+	while(current)
 	{
-		close(pipe->pipe_fd[a]);
-		dup2(pipe->pipe_fd[b], STDOUT_FILENO);
-		close(pipe->pipe_fd[b]);
+		if (current->type == PIPE)
+			return (1);
+		current = current->next;
 	}
-	else if (mode == 'i')
-	{
-		close(pipe->pipe_fd[a]);
-		dup2(pipe->pipe_fd[b], STDIN_FILENO);
-		close(pipe->pipe_fd[b]);
-	}
-	else if (mode == 'c')
-	{
-		close(pipe->pipe_fd[a]);
-		close(pipe->pipe_fd[b]);
-	}
+	return (0);
 }
-*/
+
+char    **build_exec_line(t_list *sub_list, t_env *env)
+{
+	t_node  *node;
+	char    **argv;
+	int		i;
+
+	node = sub_list->head;
+	argv = malloc((ft_lstsize(node) + 1) * sizeof(char *));
+	if (node->type == COMMAND && is_builtin(node->value) == 0)
+		argv[0] = search_in_bin(node->value, env);
+	else if (is_builtin(node->value) == 1)
+		argv[0] = ft_strdup(node->value);
+	i = 1;
+	node = node->next;
+	while (node && node->type != PIPE)
+	{
+		if (node->type == ARGUMENT || node->type == ENV_VAR || node->value[0] == '-')
+			argv[i] = expand_arg(node->value, env);
+		else if (node->type == LEFT_REDIRECT || node->type == REDIRECTION
+			|| node->type == DOUBLE_REDIRECT || ft_strcmp(node->value, "<<") == 0)
+		{
+			setup_redir(node->type, node->next->value);
+			break;
+		}
+		i++;
+		node = node->next;
+	}
+	argv[i] = NULL;
+	return (argv);
+}

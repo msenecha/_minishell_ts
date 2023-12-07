@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msenecha <msenecha@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 23:39:01 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/06 17:05:59 by msenecha         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:32:43 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// in_double_quotes et in_single_quotes sont initialisé à zero dans cette fonction 
+// in_double_quotes et in_single_quotes sont initialisé à zero dans cette fonction
 // ils agiront comme des booléen, donc le zero représentera FAUX et l'inverse représentera
 // 1 et donc VRAI
 
@@ -45,7 +45,7 @@ t_list	*tokenize_command(char *command_line)
 	t_list	*tokens;
 
 	line_copy = strdup(command_line);
-	printf("\n\033[1;34mline:\033[0m \033[1;91m%s\033[0m\n\n", line_copy);
+	//printf("\n\033[1;34mline:\033[0m \033[1;91m%s\033[0m\n\n", line_copy);
 	if (!line_copy)
 		exit(ALLOC_ERROR);
 	tokens = lexer(line_copy);
@@ -96,7 +96,3 @@ t_list	*process_command()
 	free(command);
 	return (tokens_list);
 }
-
-
-
-
