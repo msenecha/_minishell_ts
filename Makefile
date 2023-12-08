@@ -25,7 +25,7 @@ all: $(NAME)
 $(NAME): libft $(OBJS)
 	echo "\nCompiling objects ...\n"
 	@$(CC) -o $(NAME) $(OBJS) $(LIB)
-	@$(MAKE) clean
+##@$(MAKE) clean
 
 %.o: $(SRC_DIR)/%.c $(INCLUDES)
 	@$(CC) $(CFLAGS) -sC $< -o $@ $(INCLUDES)

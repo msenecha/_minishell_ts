@@ -41,19 +41,19 @@ int	set_input_redir(char *path)
 	return (0);
 }
 
-int	setup_redir(char *redir, char *path)
+int	setup_redir(int type, char *path)
 {
 	int	out_fd;
 	int	flags;
 
-	if (ft_strcmp(redir, "<") == 0)
+	if (type == LEFT_REDIRECT)
 		set_input_redir(path);
-	//else if (ft_strcmp(redir, "<<") == 0)
+	//else if (type == HEREDOC)
 		//set_heredoc(path);
-	else if (ft_strcmp(redir, ">") == 0 || ft_strcmp(redir, ">>") == 0)
+	else if (type == REDIRECTION || type == DOUBLE_REDIRECT)
 	{
 		flags = O_WRONLY | O_CREAT;
-		if (ft_strcmp(redir, ">>") == 0)
+		if (type == DOUBLE_REDIRECT)
 			flags |= O_APPEND;
 		out_fd = open(path, flags, 0666);
 		if (out_fd < 0)
@@ -100,10 +100,8 @@ char    **build_exec_line(t_list *sub_list, t_env *env)
 		else if (node->type == LEFT_REDIRECT || node->type == REDIRECTION
 			|| node->type == DOUBLE_REDIRECT || ft_strcmp(node->value, "<<") == 0)
 		{
-			//if (setup_redir(node->type, node->next->value))
-			//	return (perror("erreur redirection"), NULL);
-			argv[i++] = ft_strdup(node->value);
-			argv[i++] = ft_strdup(node->next->value);
+			if (setup_redir(node->type, node->next->value))
+				return (perror("erreur redirection"), NULL);
 			break;
 		}
 		i++;

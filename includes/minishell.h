@@ -6,7 +6,7 @@
 /*   By: msenecha <msenecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:51:56 by tscasso           #+#    #+#             */
-/*   Updated: 2023/12/07 14:56:34 by msenecha         ###   ########.fr       */
+/*   Updated: 2023/12/08 14:33:06 by msenecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ char		**env_to_str(t_env *env);
 /* execution */
 
 void 		execute_command(t_parser *data, t_env *env);
-int		setup_redir(int type, char *path);
+int			setup_redir(int type, char *path);
 char		*search_in_bin(char *args, t_env *env);
 char		*expand_arg(char *str, t_env *env);
 int 		check_for_pipe(t_list *sub_list);
