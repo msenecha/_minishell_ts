@@ -112,7 +112,7 @@ char	*expand_arg(char *str, t_env *env)
 			str = ft_strdup(res);
 			free(res);
 		}
-		//else if (str[i] == '$' && str[i + 1] == '?')
+		//else if (str[i] == '$' && str[i + 1] == '?') // gerer recup valeur de retour 
 		//	str = ft_itoa(gen->ret_val);
 		i++;
 	}
